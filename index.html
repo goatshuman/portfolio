@@ -1,73 +1,414 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anshuman | Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #3b82f6; --background: #0a0a0a; }
-        body { background-color: var(--background); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .text-glow { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-        .bg-grid { background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0); background-size: 40px 40px; }
-        @keyframes fall { from { transform: translateY(-10vh); } to { transform: translateY(110vh); } }
-        .star { position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%; opacity: 0.5; animation: fall linear infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary: #8a2be2;
+            --secondary: #4b0082;
+            --accent: #00ffff;
+            --bg: #050505;
+            --text: #ffffff;
+            --card-bg: rgba(20, 20, 25, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Falling Stars Background */
+        #star-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white, 0 0 20px white;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(-50px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, var(--accent), var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Socials */
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            position: relative;
+        }
+
+        .social-link span {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            color: var(--accent);
+        }
+
+        .social-link:hover {
+            transform: scale(1.3) translateY(-10px);
+        }
+
+        .social-link:hover span {
+            opacity: 1;
+            bottom: -35px;
+        }
+
+        .social-link.discord:hover { color: #5865F2; filter: drop-shadow(0 0 15px #5865F2); }
+        .social-link.instagram:hover { color: #E1306C; filter: drop-shadow(0 0 15px #E1306C); }
+        .social-link.github:hover { color: #ffffff; filter: drop-shadow(0 0 15px #ffffff); }
+        .social-link.email:hover { color: #EA4335; filter: drop-shadow(0 0 15px #EA4335); }
+
+        /* Sections */
+        section {
+            padding: 8rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Hobbies Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 3.5rem 2.5rem;
+            border-radius: 24px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.03), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #b0b0b0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background: linear-gradient(145deg, rgba(30, 30, 40, 0.9), rgba(15, 15, 20, 0.9));
+            padding: 4rem;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .contact-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1.2rem 3rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .contact-btn:hover {
+            background: transparent;
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 2.2rem; }
+            .hero { height: auto; padding: 10rem 0 5rem; }
+            .contact-box { padding: 2rem; }
+        }
     </style>
 </head>
-<body class="bg-grid">
-    <div id="stars-container"></div>
-    <nav class="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/10 bg-black/50 p-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center px-4">
-            <span class="font-bold text-xl tracking-wider text-glow">G.O.A.T</span>
-            <div class="flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#about" class="hover:text-blue-500 transition-colors">ABOUT</a>
-                <a href="#socials" class="hover:text-blue-500 transition-colors">SOCIALS</a>
-                <a href="#contact" class="hover:text-blue-500 transition-colors">CONTACT</a>
+<body>
+
+    <div id="star-container"></div>
+
+    <div class="container">
+        <header class="hero">
+            <h1 class="title">Anshuman</h1>
+            
+            <div class="socials">
+                <a href="https://discordapp.com/users/goatshuman" target="_blank" class="social-link discord">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+                <a href="https://instagram.com/v15back" target="_blank" class="social-link instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://github.com/goatshuman" target="_blank" class="social-link github">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="mailto:goated@anshuman.gg" class="social-link email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
             </div>
-        </div>
-    </nav>
-    <section class="min-h-screen flex flex-col justify-center items-center px-4 text-center">
-        <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-6 text-glow uppercase">ANSHUMAN</h1>
-        <p class="text-xl md:text-3xl text-gray-400 font-light tracking-widest uppercase text-glow">Crafting Digital Dominance</p>
-    </section>
-    <section id="about" class="py-32 px-4 max-w-7xl mx-auto border-t border-white/10">
-        <h2 class="text-4xl font-bold mb-8 text-glow uppercase">The Architect</h2>
-        <p class="text-lg text-gray-400">Discord Bot Maker and Gamer focused on performance and scale.</p>
-    </section>
-    <section id="socials" class="py-32 px-4 border-t border-white/10 text-center">
-        <h2 class="text-4xl font-bold mb-16 text-glow uppercase">Network Uplinks</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            <a href="https://discord.com" target="_blank" class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-blue-500 transition-all">
-                <div class="text-2xl text-blue-500">Discord</div>
-                <div class="text-sm text-gray-500">@goatshuman</div>
-            </a>
-            <a href="https://instagram.com/v15back" target="_blank" class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-pink-500 transition-all">
-                <div class="text-2xl text-pink-500">Instagram</div>
-                <div class="text-sm text-gray-500">@v15back</div>
-            </a>
-            <a href="https://github.com/goatshuman" target="_blank" class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-gray-300 transition-all">
-                <div class="text-2xl text-gray-300">GitHub</div>
-                <div class="text-sm text-gray-500">goatshuman</div>
-            </a>
-            <a href="mailto:goat@anshuman.gg" class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-red-500 transition-all">
-                <div class="text-2xl text-red-500">Email</div>
-                <div class="text-sm text-gray-500">goat@anshuman.gg</div>
-            </a>
-        </div>
-    </section>
-    <footer class="py-12 text-center text-gray-600 text-sm">G.O.A.T // 2026</footer>
+        </header>
+
+        <section id="what-i-do">
+            <h2 class="section-title">What I Do</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <i class="fas fa-robot icon"></i>
+                    <h3>Automation Specialist</h3>
+                    <p>I architect sophisticated Discord bots that redefine community engagement. From complex moderation systems to interactive game mechanics, I turn code into seamless automated experiences.</p>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-gamepad icon"></i>
+                    <h3>Gaming Enthusiast</h3>
+                    <p>More than just a hobby—gaming is a landscape for strategy and immersion. I explore deep narratives and competitive arenas that sharpen my reflexes and creative problem-solving skills.</p>
+                </div>
+
+                <div class="card">
+                    <i class="fas fa-film icon"></i>
+                    <h3>Visual Editor</h3>
+                    <p>Transforming raw footage into aesthetic masterpieces. My editing style focuses on high-impact transitions, professional pacing, and a unique visual signature that stands out.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-box">
+                <p style="font-size: 1.2rem; color: #ccc; margin-bottom: 1rem;">Interested in a collaboration or just want to say hi?</p>
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">Let's build something goated together.</h3>
+                <a href="mailto:goated@anshuman.gg" class="contact-btn">Message Me</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Anshuman. All rights reserved.</p>
+        </footer>
+    </div>
+
     <script>
-        const container = document.getElementById('stars-container');
-        for (let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            star.style.animationDelay = Math.random() * 5 + 's';
-            container.appendChild(star);
+        // Create falling stars
+        function createStars() {
+            const container = document.getElementById('star-container');
+            const numStars = 150;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * -100}vh`;
+                const duration = Math.random() * 5 + 3;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                container.appendChild(star);
+            }
         }
+
+        // Scroll Observer for animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        window.onload = createStars;
     </script>
 </body>
 </html>
