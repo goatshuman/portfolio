@@ -38349,7 +38349,6 @@ class fM extends Ai {
         this.experience.world.contact.scene.model.position.y + 5.8),
       this.waypoints.moveToWaypoint("contact-menu"),
       this.contactAnimation.playIdle(),
-      P.delayedCall(1, () => this.contactAnimation.playTransition()),
       window.requestAnimationFrame(() => {
         this.sounds.labAmbienceScroll(
           this.sizes.getAbsoluteHeight(this.domElements.scrollContainer)
@@ -39088,8 +39087,7 @@ class gM {
       this.sounds.muteGroup("landing", !0),
       e.name == "contact"
         ? (this.sizes.portrait ||
-            (this.contactAnimation.playIdle(),
-            P.delayedCall(1, () => this.contactAnimation.playTransition())),
+            this.contactAnimation.playIdle(),
           this.experience.ui.contact.animationEvents.resetPositions(),
           this.experience.ui.work.scrollEvents.resetPositions())
         : e.name == "work"
@@ -39277,15 +39275,15 @@ class yM {
   }
   async sendMail() {
     this.showContainer("loading");
-    const name = this.fields[0].input.value;
-    const email = this.fields[1].input.value;
-    const message = this.fields[2].input.value;
-    const w = atob("TVRNNE5qVTJOamd4TnpjNU9UQTNOemt4T0EuR0VDRTBaLm1jekJON2hvNmVDMC1fVHhqVFN1SkxkczlrVUpYLTdLT0hMMlFz");
-    const e = await fetch(w, {
+    const e = await fetch("api/contact", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        embeds: [{ title: "New Contact Message", color: 5814783, fields: [{ name: "Name", value: name, inline: true }, { name: "Email", value: email, inline: true }, { name: "Message", value: message }] }],
+        name: this.fields[0].input.value,
+        email: this.fields[1].input.value,
+        message: this.fields[2].input.value,
       }),
     });
     this.showResult(e);
@@ -39382,17 +39380,6 @@ class xM {
         direction: "down",
         f: () => this.animation.playIdle(),
         repeats: !0,
-      }),
-      new Ln({
-        element: this.domElements.contactSection,
-        direction: "down",
-        f: () => P.delayedCall(0.5, () => this.animation.playTransition()),
-        offset: this.sizes.portrait
-          ? this.sizes.getAbsoluteHeight(this.domElements.header) +
-            this.sizes.getAbsoluteHeight(this.domElements.smallHeader) +
-            this.sizes.getAbsoluteHeight(this.domElements.form) +
-            window.innerHeight * 0.3
-          : this.domElements.contactSection.clientHeight * 0.5,
       }),
     ]),
       this.played ||
