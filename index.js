@@ -37659,7 +37659,7 @@ const oM = [
       liveview: "https://goatshuman.github.io/buildflow/",
       alt: "BuildFlow - Developer Platform",
     },
-  ]
+  ],
   aM = {
     html: '<div class="work-item-tag" style="background: white; border: 1px solid #7C8594; color: #7C8594">HTML</div>',
     css: '<div class="work-item-tag" style="background: white; border: 1px solid #7C8594; color: #7C8594">CSS</div>',
