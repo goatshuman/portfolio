@@ -11,27 +11,19 @@ import { defineConfig } from "vite";
     plugins: [
       react(),
       tailwindcss(),
-      ...(process.env.NODE_ENV !== "production" &&
-      process.env.REPL_ID !== undefined
+      ...(process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined
         ? [
-            await import("@replit/vite-plugin-runtime-error-modal").then((m) =>
-              m.default()
-            ).catch(() => null),
+            await import("@replit/vite-plugin-runtime-error-modal").then((m) => m.default()).catch(() => null),
             await import("@replit/vite-plugin-cartographer").then((m) =>
-              m.cartographer({
-                root: path.resolve(import.meta.dirname, ".."),
-              }),
+              m.cartographer({ root: path.resolve(import.meta.dirname, "..") })
             ).catch(() => null),
-            await import("@replit/vite-plugin-dev-banner").then((m) =>
-              m.devBanner(),
-            ).catch(() => null),
+            await import("@replit/vite-plugin-dev-banner").then((m) => m.devBanner()).catch(() => null),
           ].filter(Boolean)
         : []),
     ],
     resolve: {
       alias: {
         "@": path.resolve(import.meta.dirname, "src"),
-        "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
       },
       dedupe: ["react", "react-dom"],
     },
@@ -45,9 +37,7 @@ import { defineConfig } from "vite";
       strictPort: false,
       host: "0.0.0.0",
       allowedHosts: true,
-      fs: {
-        strict: true,
-      },
+      fs: { strict: true },
     },
     preview: {
       port,
